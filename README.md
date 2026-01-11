@@ -21,3 +21,11 @@ In the Summary Screen, you can now release your Pokémon. If you do this, it wil
 
 6: Define important Pokémon
 You can now define Pokémon that will spawn with a certain chance; for example, Ash's old Butterfree, which he released, can be encountered on Map 5.
+
+# Ulquiorra Struct Manager
+This plugin partially replaces the global variables and switches, restoring a certain order. 
+You can set variables or switches for NPCs or other elements, which you can easily find again in your code editor.
+
+# Ulquiorra Storage System
+A separate type of storage, different from PC storage, but it uses its screen system.
+You can store things in the dresser, take them out, or just take them out; there are two options.
