@@ -1,0 +1,46 @@
+Lifemon -
+
+95% of everything is mentioned and explained in the script.
+
+However, for the recovery system for the release, you will need this section:
+
+"
+MenuHandlers.add(:party_menu, :release, {
+  "name"      => _INTL("Release"),
+  "order"     => 70, # Appears near the bottom of the action list
+  "condition" => proc { |screen, party, party_idx| 
+    # Logic: Cannot release eggs or the very last member of your team
+    next party.length > 1 && !party[party_idx].egg? 
+  },
+  "effect"    => proc { |screen, party, party_idx|
+    pkmn = party[party_idx]
+    
+    # Standard security confirmation
+    if screen.pbConfirm(_INTL("Release this Pokémon?"))
+      if pkmn.hasItem?
+        screen.pbDisplay(_INTL("Please take the item from the Pokémon first."))
+      else
+        # Trigger the Lifemon Recovery System
+        EventHandlers.trigger(:on_pokemon_released, pkmn)
+        
+        screen.pbDisplay(_INTL("{1} was released into the wild.", pkmn.name))
+        screen.pbDisplay(_INTL("Bye-bye, {1}!", pkmn.name))
+        
+        # --- CLEAN REMOVAL LOGIC ---
+        party.delete_at(party_idx) # Remove from array
+        
+        # If we released the last Pokémon in the list, move the cursor up
+        party_idx = party.length - 1 if party_idx >= party.length
+        
+        # Hard refresh updates the sprites and positions immediately
+        screen.pbHardRefresh 
+        
+        # Brief fade or wait can be added here if you want it even smoother
+        echoln ">>> [LIFEMON] Party menu cleaned after release." if LifemonConfig::SHOW_DEBUG_LOGS
+      end
+    end
+  }
+})
+"
+
+You insert this under UI_Summary, I recommend line 1486, after "MenuHandlers.add(:party_menu_item, :move"
