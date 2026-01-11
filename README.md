@@ -1,2 +1,3 @@
-# Pokemon-Essential-Plugins
-My plugins for Pokemon Essentials
+# Pokemon Essential Plugins
+
+Here you can find all my Pokemon Essentials plugins; you can use them for your own projects.
